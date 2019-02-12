@@ -7,15 +7,11 @@
     "sourceMap": true,
     "target": "es2018",
     "outDir": "./dist",
-    "baseUrl": "./src",
     "strict": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "noImplicitAny": true,
   },
   "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
+    "src/**/*"
   ]
 }

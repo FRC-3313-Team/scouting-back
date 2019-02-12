@@ -1,8 +1,8 @@
 import * as express from "express";
 
-import device from "./api/device";
-import login from "./api/login";
-import logout from "./api/logout";
+import device from "./device";
+import login from "./login";
+import logout from "./logout";
 
 const router = express.Router();
 

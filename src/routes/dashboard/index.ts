@@ -1,10 +1,10 @@
 import * as express from "express";
 
-import { AuthorizationType } from "../middleware/authentication";
-import asyncWrapper from "../util/asyncWrapper";
+import { AuthorizationType } from "../../middleware/authentication";
+import asyncWrapper from "../../util/asyncWrapper";
 
-import login from "./dashboard/login";
-import home from "./dashboard/home";
+import login from "./login";
+import home from "./home";
 
 const router = express.Router();
 
