@@ -89,8 +89,12 @@
                   type="text"
                   placeholder="Name"
                   v-model="newDeviceName"
+                  v-bind:class="{ 'is-danger': errors.newDevice.nameTaken }"
                 />
               </div>
+              <p class="help is-danger" v-if="errors.newDevice.nameTaken">
+                There is already a device with this name
+              </p>
             </div>
           </section>
 
@@ -101,6 +105,9 @@
             <button class="button" v-on:click="modalVisible.newDevice = false">
               Cancel
             </button>
+            <p class="help is-danger" v-if="errors.newDevice.generic">
+              Error creating new device
+            </p>
           </footer>
         </div>
       </div>

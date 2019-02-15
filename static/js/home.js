@@ -7,6 +7,12 @@ new Vue({
     newDeviceName: "",
     modalVisible: {
       newDevice: false
+    },
+    errors: {
+      newDevice: {
+        generic: false,
+        nameTaken: false
+      }
     }
   },
   methods: {
@@ -44,12 +50,23 @@ new Vue({
         })
         .then(res => {
           this.devices = res.data;
+          this.modalVisible.newDevice = false;
+          this.newDeviceError = false;
+          this.newDeviceName = "";
+
+          for (let i in this.errors.newDevice) {
+            this.errors.newDevice[i] = false;
+          }
         })
         .catch(err => {
+          if (err.status === 409) {
+            this.errors.newDevice.nameTaken = true;
+          } else {
+            this.errors.newDevice.generic = true;
+          }
+
           console.error(err);
         });
-
-      this.modalVisible.newDevice = false;
     }
   },
   mounted() {
