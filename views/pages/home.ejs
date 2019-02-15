@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html is-clipped>
   <head>
     <% include ../partials/head %>
 
@@ -16,7 +16,7 @@
           </a>
         </div>
 
-        <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-menu">
           <div class="navbar-end">
             <div class="navbar-item">
               <div class="buttons">
@@ -28,6 +28,33 @@
           </div>
         </div>
       </nav>
+
+      <section class="section">
+        <div class="container">
+          <h1 class="title">Devices</h1>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Active</th>
+                <th>Remove</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="device in devices">
+                <th>{{ device.name }}</th>
+                <td>{{ device.active }}</td>
+                <td>
+                  <a class="button is-danger" v-on:click="removeDevice"
+                    >Remove</a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
   </body>
 </html>

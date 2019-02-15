@@ -3,6 +3,7 @@ new Vue({
   data: {
     password: '',
     hasError: false,
+    devices: []
   },
   methods: {
     logout: function(event){
@@ -13,6 +14,28 @@ new Vue({
       .catch(err => {
         console.error(err)
       });
+    },
+    removeDevice: function(event){
+      const deviceId = event.srcElement.parentNode.parentNode.firstChild.innerHTML;
+
+      axios.post("../../api/device/delete", {
+        name: deviceId
+      })
+      .then(res => {
+        this.devices = res.data
+      })
+      .catch(err => {
+        console.error(err)
+      });
     }
-  }
+  },
+  mounted() {
+    axios.get("../../api/device/list")
+    .then(res => {
+      this.devices = res.data
+    })
+    .catch(err => {
+      console.error(err)
+    });
+  },
 });
