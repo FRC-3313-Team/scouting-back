@@ -10,8 +10,7 @@
     "strict": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
+    "noUnusedLocals": true
   },
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["src/**/*"]
 }
