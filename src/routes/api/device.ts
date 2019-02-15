@@ -17,7 +17,8 @@ const sanitizeDevices = (devices: IDeviceModel[]) => {
 	devices.forEach((device) => {
 		sanitized.push({
 			name: device.name,
-			active: device.active
+			active: device.active,
+			activationCode: device.activationCode
 		})
 	})
 
@@ -54,10 +55,10 @@ router.post("/new",
 
 	newDevice = await newDevice.save();
 
-	res.status(200).send({
-		code: newDevice.activationCode,
-		name: newDevice.name,
-	});
+	const devices = await Device.find()
+	const sanitized = sanitizeDevices(devices)
+
+	res.status(200).send(sanitized);
 }));
 
 router.post("/register", asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {

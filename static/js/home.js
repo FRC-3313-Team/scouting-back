@@ -1,41 +1,65 @@
 new Vue({
-  el: '#app',
+  el: "#app",
   data: {
-    password: '',
+    password: "",
     hasError: false,
-    devices: []
+    devices: [],
+    newDeviceName: "",
+    modalVisible: {
+      newDevice: false
+    }
   },
   methods: {
-    logout: function(event){
-      axios.post("../../api/logout")
-      .then(res => {
-        window.location.href = "/dash/login"
-      })
-      .catch(err => {
-        console.error(err)
-      });
+    logout: function(event) {
+      axios
+        .post("../../api/logout")
+        .then(res => {
+          window.location.href = "/dash/login";
+        })
+        .catch(err => {
+          console.error(err);
+        });
     },
-    removeDevice: function(event){
-      const deviceId = event.srcElement.parentNode.parentNode.firstChild.innerHTML;
+    removeDevice: function(event) {
+      const deviceId =
+        event.srcElement.parentNode.parentNode.firstChild.innerHTML;
 
-      axios.post("../../api/device/delete", {
-        name: deviceId
-      })
-      .then(res => {
-        this.devices = res.data
-      })
-      .catch(err => {
-        console.error(err)
-      });
+      axios
+        .post("../../api/device/delete", {
+          name: deviceId
+        })
+        .then(res => {
+          this.devices = res.data;
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
+    createDevice: function(event) {
+      console.log(this.newDeviceName);
+
+      axios
+        .post("../../api/device/new", {
+          name: this.newDeviceName
+        })
+        .then(res => {
+          this.devices = res.data;
+        })
+        .catch(err => {
+          console.error(err);
+        });
+
+      this.modalVisible.newDevice = false;
     }
   },
   mounted() {
-    axios.get("../../api/device/list")
-    .then(res => {
-      this.devices = res.data
-    })
-    .catch(err => {
-      console.error(err)
-    });
-  },
+    axios
+      .get("../../api/device/list")
+      .then(res => {
+        this.devices = res.data;
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
 });

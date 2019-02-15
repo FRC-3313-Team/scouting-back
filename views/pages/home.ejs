@@ -38,6 +38,7 @@
               <tr>
                 <th>Name</th>
                 <th>Active</th>
+                <th>Code</th>
                 <th>Remove</th>
               </tr>
             </thead>
@@ -45,16 +46,63 @@
               <tr v-for="device in devices">
                 <th>{{ device.name }}</th>
                 <td>{{ device.active }}</td>
+                <td>{{ device.activationCode }}</td>
                 <td>
-                  <a class="button is-danger" v-on:click="removeDevice"
-                    >Remove</a
-                  >
+                  <a class="button is-danger" v-on:click="removeDevice">
+                    Remove
+                  </a>
                 </td>
               </tr>
             </tbody>
           </table>
+
+          <a
+            class="button is-primary"
+            v-on:click="modalVisible.newDevice = true"
+            >New Device</a
+          >
         </div>
       </section>
+
+      <div class="modal" v-bind:class="{ 'is-active': modalVisible.newDevice }">
+        <div
+          class="modal-background"
+          v-on:click="modalVisible.newDevice = false"
+        ></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">New Device</p>
+            <button
+              class="delete"
+              aria-label="close"
+              v-on:click="modalVisible.newDevice = false"
+            ></button>
+          </header>
+
+          <section class="modal-card-body">
+            <div class="field">
+              <label class="label">Name</label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  placeholder="Name"
+                  v-model="newDeviceName"
+                />
+              </div>
+            </div>
+          </section>
+
+          <footer class="modal-card-foot">
+            <button class="button is-success" v-on:click="createDevice">
+              Create
+            </button>
+            <button class="button" v-on:click="modalVisible.newDevice = false">
+              Cancel
+            </button>
+          </footer>
+        </div>
+      </div>
     </div>
   </body>
 </html>
