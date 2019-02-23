@@ -3,8 +3,7 @@ import { Document, Schema, Model } from "mongoose";
 import { connections } from "../util/db";
 
 export interface ITeam {
-	number: number,
-	name: string,
+	key: string,
 	abilities: {
 		cargo: {
 			top: boolean,
@@ -25,8 +24,7 @@ export interface ITeam {
 export interface ITeamModel extends ITeam, Document {}
 
 export const TeamSchema: Schema = new Schema({
-	number: Number,
-	name: String,
+	key: String,
 	abilities: {
 		cargo: {
 			top: Boolean,
