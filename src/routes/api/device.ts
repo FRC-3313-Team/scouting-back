@@ -1,6 +1,5 @@
 import * as express from "express";
 import * as rand from "csprng";
-import * as uuid from "uuid";
 
 import config from "../../util/config";
 import asyncWrapper from "../../util/asyncWrapper";
