@@ -1,0 +1,73 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "required": ["number", "name", "abilities"],
+  "properties": {
+    "number": {
+      "$id": "#/properties/number",
+      "type": "integer"
+    },
+    "name": {
+      "$id": "#/properties/name",
+      "type": "string"
+    },
+    "abilities": {
+      "$id": "#/properties/abilities",
+      "type": "object",
+      "required": ["cargo", "hatch", "habitat"],
+      "properties": {
+        "cargo": {
+          "$id": "#/properties/abilities/properties/cargo",
+          "type": "object",
+          "required": ["top", "middle", "bottom"],
+          "properties": {
+            "top": {
+              "$id": "#/properties/abilities/properties/cargo/properties/top",
+              "type": "boolean"
+            },
+            "middle": {
+              "$id": "#/properties/abilities/properties/cargo/properties/middle",
+              "type": "boolean"
+            },
+            "bottom": {
+              "$id": "#/properties/abilities/properties/cargo/properties/bottom",
+              "type": "boolean"
+            }
+          }
+        },
+        "hatch": {
+          "$id": "#/properties/abilities/properties/hatch",
+          "type": "object",
+          "required": ["top", "middle", "bottom"],
+          "properties": {
+            "top": {
+              "$id": "#/properties/abilities/properties/hatch/properties/top",
+              "type": "boolean"
+            },
+            "middle": {
+              "$id": "#/properties/abilities/properties/hatch/properties/middle",
+              "type": "boolean"
+            },
+            "bottom": {
+              "$id": "#/properties/abilities/properties/hatch/properties/bottom",
+              "type": "boolean"
+            }
+          }
+        },
+        "habitat": {
+          "$id": "#/properties/abilities/properties/habitat",
+          "type": "object",
+          "required": ["maxLevel"],
+          "properties": {
+            "maxLevel": {
+              "$id": "#/properties/abilities/properties/habitat/properties/maxLevel",
+              "type": "integer"
+            }
+          }
+        }
+      }
+    }
+  }
+}
