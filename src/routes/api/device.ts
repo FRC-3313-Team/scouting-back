@@ -37,7 +37,7 @@ router.get("/list",
 router.post("/new",
 	requireAuth(AuthorizationType.Dashboard),
 	asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-	const deviceName = req.body.name ? req.body.name : rand(12, 36);
+	const deviceName = req.body.name ? req.body.name : rand(25, 36);
 
 	const checkForExistingName = await Device.findOne({ name: deviceName });
 	if (checkForExistingName) {

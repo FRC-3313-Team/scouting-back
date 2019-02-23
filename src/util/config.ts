@@ -8,8 +8,7 @@ interface IConfig {
 
 	database: {
 		url: string,
-		mainDatabase: string,
-		eventDatabase: string,
+		database: string
 	};
 
 	device: {

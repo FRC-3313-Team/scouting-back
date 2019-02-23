@@ -11,6 +11,5 @@ function createConnection(dbName: string): mongoose.Connection {
 }
 
 export const connections: IConnections = {
-	main: createConnection(config.database.mainDatabase),
-	// event: createConnection(config.database.eventDatabase), TODO: Connect to correct event database given a TBA event key
+	main: createConnection(config.database.database),
 };
