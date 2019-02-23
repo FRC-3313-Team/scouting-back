@@ -72,7 +72,7 @@ router.post("/register", asyncWrapper(async (req: express.Request, res: express.
 
 	device.activationCode = undefined;
 	device.active = true;
-	device.token = uuid.v4();
+	device.token = rand(512, 36);
 
 	device = await device.save();
 
