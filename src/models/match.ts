@@ -8,41 +8,42 @@ export interface IMatch {
 		cargo: {
 			top: number,
 			middle: number,
-			bottom: number
+			bottom: number,
 		},
 		hatch: {
 			top: number,
 			middle: number,
-			bottom: number
+			bottom: number,
 		},
 		habitat: {
-			level: number
-		}
-	}
+			level: number,
+		},
+	},
 }
 
 export interface IMatchModel extends IMatch, Document {}
 
 export const MatchSchema: Schema = new Schema({
 	team: String,
+	key: String,
 	scores: {
 		cargo: {
 			top: Boolean,
 			middle: Boolean,
-			bottom: Boolean
+			bottom: Boolean,
 		},
 		hatch: {
 			top: Boolean,
 			middle: Boolean,
-			bottom: Boolean
+			bottom: Boolean,
 		},
 		habitat: {
-			maxLevel: Number
-		}
-	}
+			maxLevel: Number,
+		},
+	},
 });
 
 export const Device: Model<IMatchModel> = connections.main.model<IMatchModel>(
 	"Match",
-	MatchSchema
+	MatchSchema,
 );

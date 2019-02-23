@@ -15,10 +15,10 @@ export const DeviceSchema: Schema = new Schema({
 	active: Boolean,
 	name: String,
 	activationCode: String,
-	token: String
+	token: String,
 });
 
 export const Device: Model<IDeviceModel> = connections.main.model<IDeviceModel>(
 	"Device",
-	DeviceSchema
+	DeviceSchema,
 );

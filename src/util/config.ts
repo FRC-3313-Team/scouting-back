@@ -4,21 +4,25 @@ import * as fs from "fs";
 interface IConfig {
 	server: {
 		port: number,
-	};
+	}
 
 	database: {
 		url: string,
-		database: string
-	};
+		database: string,
+	}
 
 	device: {
 		activationCodeLength: number,
-	};
+	}
 
 	dashboard: {
 		password: string,
 		jwtSigningKey: string,
-	};
+	}
+
+	event: {
+		regional: string,
+	}
 }
 
 const appConfig = ini.parse(fs.readFileSync("./src/config/app.ini", "utf-8")) as IConfig;

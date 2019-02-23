@@ -11,9 +11,9 @@ import api from "./routes/api";
 import dashboard from "./routes/dashboard";
 
 class App {
-  public app: express.Application;
+	public app: express.Application;
 
-  constructor() {
+	constructor() {
 		this.app = express();
 
 		this.config();
@@ -26,16 +26,16 @@ class App {
 		this.app.set("views", path.join(__dirname, "../views"));
 	}
 
-  private middleware(): void {
+	private middleware(): void {
 		this.app.use(morgan("dev"));
 		this.app.use(bodyParser.json());
 		this.app.use(bodyParser.urlencoded({ extended: false }));
 		this.app.use(cookieParser());
 
 		this.app.use(authentication);
-  }
+	}
 
-  private routes(): void {
+	private routes(): void {
 		this.app.use(express.static("static"));
 		this.app.use("/favicon.ico", express.static("static/img/favicon.ico"));
 
@@ -54,7 +54,7 @@ class App {
 			res.status(404)
 				.render("pages/404");
 		});
-  }
+	}
 }
 
 export default new App().app;

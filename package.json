@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/FRC-3313-Team/scouting-back#readme",
   "dependencies": {
+    "@types/ajv": "^1.0.0",
+    "ajv": "^6.9.2",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
     "csprng": "^0.1.2",
@@ -42,6 +44,7 @@
     "@types/mongoose": "^5.3.4",
     "@types/morgan": "^1.7.35",
     "@types/uuid": "^3.4.4",
-    "tslint": "^5.11.0"
+    "tslint": "^5.11.0",
+    "typescript": "^3.3.3333"
   }
 }

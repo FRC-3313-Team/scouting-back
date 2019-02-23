@@ -10,28 +10,28 @@ import { AuthorizationType } from "../../middleware/authentication";
 
 const router = express.Router();
 
-const sanitizeDevices = (devices: IDeviceModel[]) => {
-	const sanitized: IDevice[] = []
+const sanitizeDevices = (devices: Array<IDeviceModel>) => {
+	const sanitized: Array<IDevice> = [];
 
 	devices.forEach((device) => {
 		sanitized.push({
 			name: device.name,
 			active: device.active,
-			activationCode: device.activationCode
-		})
-	})
+			activationCode: device.activationCode,
+		});
+	});
 
-	return sanitized
-}
+	return sanitized;
+};
 
 router.get("/list",
 	requireAuth(AuthorizationType.Dashboard),
 	asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-	const devices = await Device.find()
-	const sanitized = sanitizeDevices(devices)
+	const devices = await Device.find();
+	const sanitized = sanitizeDevices(devices);
 
 	res.status(200)
-	.send(sanitized)
+	.send(sanitized);
 }));
 
 router.post("/new",
@@ -54,8 +54,8 @@ router.post("/new",
 
 	newDevice = await newDevice.save();
 
-	const devices = await Device.find()
-	const sanitized = sanitizeDevices(devices)
+	const devices = await Device.find();
+	const sanitized = sanitizeDevices(devices);
 
 	res.status(200).send(sanitized);
 }));
@@ -83,7 +83,7 @@ router.post("/register", asyncWrapper(async (req: express.Request, res: express.
 router.post("/delete",
 	requireAuth(AuthorizationType.Dashboard),
 	asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-	let device = await Device.findOne({ name: req.body.name });
+	const device = await Device.findOne({ name: req.body.name });
 
 	if (device === null) {
 		return res.status(400)
@@ -91,13 +91,13 @@ router.post("/delete",
 			.send("invalid name");
 	}
 
-	await device.remove()
+	await device.remove();
 
-	const devices = await Device.find()
-	const sanitized = sanitizeDevices(devices)
+	const devices = await Device.find();
+	const sanitized = sanitizeDevices(devices);
 
 	res.status(200)
-	.send(sanitized)
+	.send(sanitized);
 }));
 
 export default router;
