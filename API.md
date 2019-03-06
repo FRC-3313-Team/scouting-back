@@ -86,8 +86,9 @@ Get the information set by the dashboard for the device. Can be used for testing
 #### Example Response
 ```json
 {
-  "name": "Scouting Tablet #1",
-  "defaultDriverStation": "r2"
+	"name": "Scouting Tablet #1",
+	"defaultDriverStation": "r2",
+	"regional": "ndgf2019"
 }
 ```
 
@@ -115,7 +116,7 @@ Authentication: Device
   {
     "type": "match",
     "match": "qm5",
-    "team": "frc3313",
+		"team": "frc3313",
     "data": {
       "auto": {
         "hatch": true,
@@ -164,6 +165,7 @@ Authentication: Device
     "match": "qm1`",
     "data": {
       "frc3313": {
+				"position": "b2",
         "auto": {
           "hatch": true,
           "cargo": false
