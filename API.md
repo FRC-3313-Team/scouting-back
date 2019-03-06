@@ -1,12 +1,21 @@
 # API Docs
 
 ## Authentication
-TODO
+
+#### Dashboard
+JWT token set in cookie by ``/api/login``
+
+#### Device
+Get token through ``/api/device/register``
+
+Token sent in ``device-token`` header
 
 ## Endpoints
 
 ### POST ``/api/login``
 Login to the dashboard
+
+Authentication: None
 
 #### Example Body
 ```json
@@ -18,8 +27,12 @@ Login to the dashboard
 ### POST ``/api/logout``
 Logout from dashboard by deleting JWT cookie
 
+Authentication: Dashboard
+
 ### POST ``/api/device/new``
 Create new device with given name
+
+Authentication: Dashboard
 
 #### Example Body
 ```json
@@ -30,6 +43,8 @@ Create new device with given name
 
 ### GET ``/api/device/list``
 Create new device with given name
+
+Authentication: Dashboard
 
 #### Example Response
 ```json
@@ -49,6 +64,8 @@ Create new device with given name
 ### POST ``/api/device/register``
 Register a new device using an activation code
 
+Authentication: None
+
 #### Example Body
 ```json
 {
@@ -67,6 +84,8 @@ Register a new device using an activation code
 ### POST ``/api/device/delete``
 Delete an existing device, disabling it's ability to submit scouting data
 
+Authentication: Dashboard
+
 #### Example Body
 ```json
 {
@@ -77,33 +96,47 @@ Delete an existing device, disabling it's ability to submit scouting data
 ### POST ``/api/scout/upload``
 Uploads an array of changes to the scouting data
 
+Authentication: Device
+
 #### Example Body
 ```json
 [
   {
     "type": "match",
-    "match": 5,
-    "team": 3313,
+    "match": "qm5",
+    "team": "frc3313",
     "data": {
-      "hatch": [4, 2, 0],
-      "cargo": [3, 1, 0],
+      "auto": {
+        "hatch": true,
+        "cargo": false
+      },
       "habitat": {
         "start": 2,
         "end": 2
-      }
+      },
+      "rocket": {
+        "hatch": [0, 2, 0],
+        "cargo": [true, false, false]
+      },
+      "pod": {
+        "hatch": 1,
+        "cargo": 3
+      },
+      "notes": "Some random text here"
     }
   },
   {
     "type": "pit",
-    "team": 3313,
+    "team": "frc3456",
     "socialMedia": [
-      { "site": "Twitter", "handle": "@WhateverOurSocialMediaIs" }
+      { "site": "twitter", "handle": "@WhateverOurSocialMediaIs" }
     ],
     "awards": {
       "chairmans": true,
       "woodie": false,
       "whateverOtherAwardsThePRTeamWants": false
-    }
+    },
+    "notes": "Some more random text here"
   }
 ]
 ```
@@ -111,38 +144,44 @@ Uploads an array of changes to the scouting data
 ### GET ``/api/scout/matches``
 Get the entire match schedule + scouting data
 
+Authentication: Device
+
 #### Example Response
 ```json
 [
   {
-    "match": 1,
+    "match": "qm1`",
     "data": {
       "frc3313": {
-        "alliance": "red",
-        "hatch": [4, 2, 0],
-        "cargo": [3, 1, 0],
+        "auto": {
+          "hatch": true,
+          "cargo": false
+        },
         "habitat": {
           "start": 2,
           "end": 2
-        }
+        },
+        "rocket": {
+          "hatch": [0, 2, 0],
+          "cargo": [true, false, false]
+        },
+        "pod": {
+          "hatch": 1,
+          "cargo": 3
+        },
+        "notes": "Some random text here"
       },
-      "frc1234": {
-        "alliance": "blue",
-        "hatch": [4, 2, 0],
-        "cargo": [3, 1, 0],
-        "habitat": {
-          "start": 2,
-          "end": 2
-        }
-      }
       ...
     }
   }
+  ...
 ]
 ```
 
 ### GET ``/api/scout/pit``
 Return all team's pit scouting information
+
+Authentication: Device
 
 ```json
 [
