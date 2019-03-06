@@ -163,8 +163,9 @@ Authentication: Device
 [
   {
     "match": "qm1`",
-    "data": {
-      "frc3313": {
+    "data": [
+      {
+        "team": "frc3313",
 				"position": "b2",
         "auto": {
           "hatch": true,
@@ -185,7 +186,7 @@ Authentication: Device
         "notes": "Some random text here"
       },
       ...
-    }
+    ]
   }
   ...
 ]
