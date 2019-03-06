@@ -80,6 +80,17 @@ Authentication: None
 }
 ```
 
+### GET ``/api/device/status``
+Get the information set by the dashboard for the device. Can be used for testing if a device is activated or not.
+
+#### Example Response
+```json
+{
+  "name": "Scouting Tablet #1",
+  "defaultDriverStation": "r2"
+}
+```
+
 
 ### POST ``/api/device/delete``
 Delete an existing device, disabling it's ability to submit scouting data
