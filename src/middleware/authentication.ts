@@ -7,9 +7,9 @@ import * as jwt from "jsonwebtoken";
 import { Device } from "../models/device";
 
 export enum AuthorizationType {
-	Dashboard,
-	Device,
 	None,
+	Device,
+	Dashboard,
 }
 
 export const authentication = asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -25,6 +25,7 @@ export const authentication = asyncWrapper(async (req: express.Request, res: exp
 
 		if (device && device.active) {
 			req.user.authorizationType = AuthorizationType.Device;
+			req.user.device = device;
 			return next();
 		}
 	}

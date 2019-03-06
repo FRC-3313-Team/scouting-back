@@ -100,4 +100,15 @@ router.post("/delete",
 	.send(sanitized);
 }));
 
+router.get("/status",
+	requireAuth(AuthorizationType.Device),
+	asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	const device = req.user.device as IDeviceModel;
+
+	res.status(200).send({
+		name: device.name,
+		defaultDriverStation: "r1",
+	});
+}));
+
 export default router;
