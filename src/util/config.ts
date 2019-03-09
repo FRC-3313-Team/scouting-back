@@ -23,6 +23,10 @@ interface IConfig {
 	event: {
 		regional: string,
 	}
+
+	external: {
+		theBlueAllianceKey: string,
+	}
 }
 
 const appConfig = ini.parse(fs.readFileSync("./src/config/app.ini", "utf-8")) as IConfig;

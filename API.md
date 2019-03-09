@@ -168,10 +168,12 @@ Authentication: Device
     "data": [
       {
         "team": "frc3313",
-				"position": "b2",
+        "position": "b2",
+        "scouted": true,
         "auto": {
           "hatch": true,
-          "cargo": false
+          "cargo": false,
+          "movement": true
         },
         "habitat": {
           "start": 2,
@@ -179,14 +181,20 @@ Authentication: Device
         },
         "rocket": {
           "hatch": [0, 2, 0],
-          "cargo": [true, false, false]
+          "cargo": [0, 0, 0]
         },
         "pod": {
           "hatch": 1,
           "cargo": 3
         },
+        "defense": false,
         "notes": "Some random text here"
       },
+      {
+        "team": "frc4444",
+        "position": "b3",
+        "scouted": false,
+      }
       ...
     ]
   }
