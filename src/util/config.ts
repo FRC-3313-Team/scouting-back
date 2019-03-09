@@ -21,10 +21,6 @@ interface IConfig {
 		jwtSigningKey: string,
 	}
 
-	event: {
-		regional: string,
-	}
-
 	external: {
 		theBlueAllianceKey: string,
 	}
