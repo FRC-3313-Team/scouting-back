@@ -116,11 +116,12 @@ Authentication: Device
   {
     "type": "match",
     "match": "qm5",
-		"team": "frc3313",
+    "team": "frc3313",
     "data": {
       "auto": {
         "hatch": true,
-        "cargo": false
+        "cargo": false,
+	"movement": true
       },
       "habitat": {
         "start": 2,
@@ -128,12 +129,13 @@ Authentication: Device
       },
       "rocket": {
         "hatch": [0, 2, 0],
-        "cargo": [true, false, false]
+        "cargo": [0, 0, 0]
       },
       "pod": {
         "hatch": 1,
         "cargo": 3
       },
+      "defense": false,
       "notes": "Some random text here"
     }
   },
