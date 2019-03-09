@@ -161,36 +161,45 @@ Get the entire match schedule + scouting data
 
 Authentication: Device
 
+#### Example Body
+```json
+{
+  "regional": "2018ndgf"
+}
+```
+
 #### Example Response
 ```json
 [
   {
     "match": "qm1",
-    "regional": "ndgf",
+    "regional": "2018ndgf",
     "data": [
       {
         "team": "frc3313",
         "position": "b2",
         "scouted": true,
-        "auto": {
-          "hatch": true,
-          "cargo": false,
-          "movement": true
-        },
-        "habitat": {
-          "start": 2,
-          "end": 2
-        },
-        "rocket": {
-          "hatch": [0, 2, 0],
-          "cargo": [0, 0, 0]
-        },
-        "pod": {
-          "hatch": 1,
-          "cargo": 3
-        },
-        "defense": false,
-        "notes": "Some random text here"
+        "data": {
+          "auto": {
+            "hatch": true,
+            "cargo": false,
+            "movement": true
+          },
+          "habitat": {
+            "start": 2,
+            "end": 2
+          },
+          "rocket": {
+            "hatch": [0, 2, 0],
+            "cargo": [0, 0, 0]
+          },
+          "pod": {
+            "hatch": 1,
+            "cargo": 3
+          },
+          "defense": false,
+          "notes": "Some random text here"
+        }
       },
       {
         "team": "frc4444",

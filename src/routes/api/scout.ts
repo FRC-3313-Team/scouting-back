@@ -1,0 +1,75 @@
+import * as express from "express";
+
+import asyncWrapper from "../../util/asyncWrapper";
+import requireAuth from "../../middleware/requireAuth";
+
+import { AuthorizationType } from "../../middleware/authentication";
+import { Match, IMatchData } from "../../models/match";
+import { Regional } from "../../models/regional";
+
+interface IMatchDelta {
+	type: "match",
+	regional: string,
+	match: string,
+	team: string,
+	data: IMatchData,
+}
+
+const router = express.Router();
+
+router.get("/matches",
+	requireAuth(AuthorizationType.Device),
+	asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	if (typeof req.body.regional !== "string") {
+		return res.status(400)
+			.contentType("text/plain")
+			.send("missing regional property in body");
+	}
+
+	const regional = await Regional.findOne({ key: req.body.regional });
+	if (!regional) {
+		return res.status(404)
+			.contentType("text/plain")
+			.send("regional does not exist or it has not been loaded in the dashboard");
+	}
+
+	const matches = await Match.find({ regional: regional.key }).lean();
+
+	res.status(200)
+		.send(matches);
+}));
+
+router.post("/upload",
+	requireAuth(AuthorizationType.Device),
+	asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+
+	if (!Array.isArray(req.body)) {
+		return res.status(400)
+			.contentType("text/plain")
+			.send("body must be an array");
+	}
+
+	for (const change of req.body) {
+		if (change.type === "match") {
+			const delta: IMatchDelta = change;
+			const match = await Match.findOne({ regional: delta.regional, match: delta.match });
+
+			if (!match) {
+				continue;
+			}
+
+			for (const i in match.data) {
+				if (match.data.hasOwnProperty(i) && match.data[i].team === delta.team) {
+					match.data[i].data = delta.data;
+					match.data[i].scouted = true;
+				}
+			}
+
+			await match.save();
+		}
+	}
+
+	res.sendStatus(200);
+}));
+
+export default router;

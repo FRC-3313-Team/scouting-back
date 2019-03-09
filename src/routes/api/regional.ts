@@ -23,25 +23,27 @@ const generateAlliancesWithPrefix = (teamKeys: Array<string>, prefix: string) =>
 				team: teamKey,
 				position: prefix + (+i + 1),
 				scouted: false,
-				auto: {
-					hatch: false,
-					cargo: false,
-					movement: false,
+				data: {
+					auto: {
+						hatch: false,
+						cargo: false,
+						movement: false,
+					},
+					habitat: {
+						start: 0,
+						end: 0,
+					},
+					rocket: {
+						cargo: [0, 0, 0],
+						hatch: [0, 0, 0],
+					},
+					pod: {
+						hatch: 0,
+						cargo: 0,
+					},
+					defense: false,
+					notes: "",
 				},
-				habitat: {
-					start: 0,
-					end: 0,
-				},
-				rocket: {
-					cargo: [0, 0, 0],
-					hatch: [0, 0, 0],
-				},
-				pod: {
-					hatch: 0,
-					cargo: 0,
-				},
-				defense: false,
-				notes: "",
 			});
 		}
 	}
