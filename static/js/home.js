@@ -107,6 +107,34 @@ new Vue({
 
 					console.error(err);
 				});
+		},
+		removeRegional: function(event) {
+			const regionalKey = event.srcElement.parentNode.parentNode.children[1].innerHTML;
+
+			axios
+				.post("../../api/regional/delete", {
+					key: regionalKey
+				})
+				.then(res => {
+					this.regionals = res.data;
+				})
+				.catch(err => {
+					console.error(err);
+				});
+		},
+		primeRegional: function(event) {
+			const regionalKey = event.srcElement.parentNode.parentNode.children[1].innerHTML;
+
+			axios
+				.post("../../api/regional/active", {
+					key: regionalKey
+				})
+				.then(res => {
+					this.regionals = res.data;
+				})
+				.catch(err => {
+					console.error(err);
+				});
 		}
 	},
 	mounted() {

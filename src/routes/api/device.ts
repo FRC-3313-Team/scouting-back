@@ -7,6 +7,7 @@ import requireAuth from "../../middleware/requireAuth";
 
 import { Device, IDevice, IDeviceModel } from "../../models/device";
 import { AuthorizationType } from "../../middleware/authentication";
+import { Regional } from "../../models/regional";
 
 const router = express.Router();
 
@@ -111,9 +112,18 @@ router.get("/status",
 	asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
 	const device = req.user.device as IDeviceModel;
 
+	let regionalKey: string | null = null;
+
+	const activeRegional = await Regional.findOne({ active: true });
+
+	if (activeRegional) {
+		regionalKey = activeRegional.key;
+	}
+
 	res.status(200).send({
 		name: device.name,
 		defaultDriverStation: "r1",
+		regional: regionalKey,
 	});
 }));
 

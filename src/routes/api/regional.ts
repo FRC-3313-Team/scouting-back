@@ -116,6 +116,11 @@ router.post("/new",
 		loaded: true,
 	});
 
+	const currentActiveRegional = await Regional.findOne({ active: true });
+	if (!currentActiveRegional) {
+		newRegional.active = true;
+	}
+
 	await newRegional.save();
 
 	const currentRegionals = await Regional.find().lean();
@@ -151,8 +156,45 @@ router.post("/delete",
 			.send("regional not loaded");
 	}
 
+	if (regional.active) {
+		return res.status(400)
+			.contentType("text/plain")
+			.send("cannot delete active regional");
+	}
+
 	await Match.deleteMany({ regional: regional.key });
 	await regional.remove();
+
+	const currentRegionals = await Regional.find().lean();
+
+	return res.status(200)
+		.send(currentRegionals);
+}));
+
+router.post("/active",
+	requireAuth(AuthorizationType.Dashboard),
+	asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	if (typeof req.body.key !== "string") {
+		return res.status(400)
+			.contentType("text/plain")
+			.send("must provide regional key");
+	}
+
+	const regional = await Regional.findOne({ key: req.body.key });
+	if (!regional) {
+		return res.status(400)
+			.contentType("text/plain")
+			.send("regional not loaded");
+	}
+
+	const currentActiveRegional = await Regional.findOne({ active: true });
+	if (currentActiveRegional && currentActiveRegional.key !== regional.key) {
+		currentActiveRegional.active = false;
+		await currentActiveRegional.save();
+	}
+
+	regional.active = true;
+	await regional.save();
 
 	const currentRegionals = await Regional.find().lean();
 

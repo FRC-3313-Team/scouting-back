@@ -84,10 +84,10 @@
 								<td>{{ regional.key }}</td>
 								<td>{{ regional.active }}</td>
 								<td>
-									<a class="button is-primary" v-on:click="">
+									<a class="button is-primary" v-on:click="primeRegional" v-bind:disabled="regional.active" >
 										Set Primary
 									</a>
-									<a class="button is-danger" v-on:click="">
+									<a class="button is-danger" v-on:click="removeRegional" v-bind:disabled="regional.active">
 										Remove
 									</a>
 								</td>

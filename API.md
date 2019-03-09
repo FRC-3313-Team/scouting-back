@@ -86,9 +86,9 @@ Get the information set by the dashboard for the device. Can be used for testing
 #### Example Response
 ```json
 {
-	"name": "Scouting Tablet #1",
+	"name": "Scouting Tablet 1",
 	"defaultDriverStation": "r2",
-	"regional": "ndgf2019"
+	"regional": "2018ndgf"
 }
 ```
 
@@ -116,6 +116,7 @@ Authentication: Device
   {
     "type": "match",
     "match": "qm5",
+    "regional": "2018ndgf",
     "team": "frc3313",
     "data": {
       "auto": {
@@ -164,7 +165,8 @@ Authentication: Device
 ```json
 [
   {
-    "match": "qm1`",
+    "match": "qm1",
+    "regional": "ndgf",
     "data": [
       {
         "team": "frc3313",
@@ -210,7 +212,7 @@ Authentication: Device
 ```json
 [
   {
-    "team": 3313,
+    "team": "frc3313",
     "socialMedia": [
       { "site": "Twitter", "handle": "@WhateverOurSocialMediaIs" }
     ],
