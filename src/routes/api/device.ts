@@ -61,6 +61,12 @@ router.post("/new",
 }));
 
 router.post("/register", asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	if (!req.body.activationCode) {
+		return res.status(400)
+			.contentType("text/plain")
+			.send("no code provided");
+	}
+
 	let device = await Device.findOne({ activationCode: req.body.activationCode });
 
 	if (device === null) {
