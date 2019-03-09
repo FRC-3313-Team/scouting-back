@@ -34,3 +34,13 @@ export interface IRegionalInfo {
 	state_prov: string,
 	year: number,
 }
+
+export interface ITBATeam {
+	city: string,
+	country: string,
+	key: string,
+	name: string,
+	nickname: string,
+	state_prov: string,
+	team_number: string,
+}

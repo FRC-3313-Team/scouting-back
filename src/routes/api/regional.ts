@@ -6,9 +6,10 @@ import asyncWrapper from "../../util/asyncWrapper";
 import requireAuth from "../../middleware/requireAuth";
 
 import { AuthorizationType } from "../../middleware/authentication";
-import { IMatchScheduleEntry, IRegionalInfo } from "../../types/thebluealliance";
+import { IMatchScheduleEntry, IRegionalInfo, ITBATeam } from "../../types/thebluealliance";
 import { Match, IMatchModel, IMatchTeam } from "../../models/match";
 import { Regional, IRegionalModel, IRegional } from "../../models/regional";
+import { Team } from "../../models/team";
 
 axios.defaults.headers.get["X-TBA-Auth-Key"] = config.external.theBlueAllianceKey;
 
@@ -58,6 +59,7 @@ router.post("/new",
 	asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
 	let matchSchedule: Array<IMatchScheduleEntry>;
 	let regionalInfo: IRegionalInfo;
+	let teamsAtRegional: Array<ITBATeam>;
 
 	if (typeof req.body.key !== "string") {
 		return res.status(400)
@@ -98,6 +100,16 @@ router.post("/new",
 		return res.status(500).send();
 	}
 
+	try {
+		const axiosRes = await axios.get(config.server.theBlueAllianceAPI + "/event/" + req.body.key + "/teams/simple");
+
+		teamsAtRegional = axiosRes.data;
+	} catch (e) {
+		console.error(e);
+
+		return res.status(500).send();
+	}
+
 	matchSchedule.forEach((match) => {
 		if (match.comp_level !== "qm") { return; }
 
@@ -109,6 +121,23 @@ router.post("/new",
 		});
 
 		newMatch.save();
+	});
+
+	teamsAtRegional.forEach((team) => {
+		const newTeam = new Team({
+			key: team.key,
+			data: {
+				social: [],
+				awards: {
+					chairmans: false,
+					woodie: false,
+					deans: false,
+				},
+				notes: "",
+			},
+		});
+
+		newTeam.save();
 	});
 
 	const newRegional: IRegionalModel = new Regional({

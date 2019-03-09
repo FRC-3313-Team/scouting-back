@@ -141,17 +141,19 @@ Authentication: Device
     }
   },
   {
-    "type": "pit",
-    "team": "frc3456",
-    "socialMedia": [
-      { "site": "twitter", "handle": "@WhateverOurSocialMediaIs" }
-    ],
-    "awards": {
-      "chairmans": true,
-      "woodie": false,
-      "whateverOtherAwardsThePRTeamWants": false
-    },
-    "notes": "Some more random text here"
+    "type": "team",
+    "team": "frc1234",
+    "data": {
+      "social": [
+        { "site": "twitter", "handle": "@WhateverOurSocialMediaIs" }
+      ],
+      "awards": {
+        "chairmans": true,
+        "woodie": false,
+        "deans": false,
+      },
+      "notes": "Some more random text here"
+    }
   }
 ]
 ```
@@ -222,13 +224,16 @@ Authentication: Device
 [
   {
     "team": "frc3313",
-    "socialMedia": [
-      { "site": "Twitter", "handle": "@WhateverOurSocialMediaIs" }
-    ],
-    "awards": {
-      "chairmans": true,
-      "woodie": false,
-      "whateverOtherAwardsThePRTeamWants": false
+    "data": {
+      "social": [
+        { "site": "twitter", "handle": "@WhateverOurSocialMediaIs" }
+      ],
+      "awards": {
+        "chairmans": true,
+        "woodie": false,
+        "deans": false,
+      },
+      "notes": "Some more random text here"
     }
   }
 ]
