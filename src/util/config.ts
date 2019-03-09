@@ -30,8 +30,8 @@ interface IConfig {
 	}
 }
 
-const appConfig = ini.parse(fs.readFileSync("./src/config/app.ini", "utf-8")) as IConfig;
-const fallbackConfig = ini.parse(fs.readFileSync("./src/config/app.example.ini", "utf-8")) as IConfig;
+const appConfig = ini.parse(fs.readFileSync("./config/app.ini", "utf-8")) as IConfig;
+const fallbackConfig = ini.parse(fs.readFileSync("./config/app.example.ini", "utf-8")) as IConfig;
 
 const mergedConfig: IConfig = { ...fallbackConfig, ...appConfig };
 
