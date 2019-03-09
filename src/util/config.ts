@@ -4,6 +4,7 @@ import * as fs from "fs";
 interface IConfig {
 	server: {
 		port: number,
+		theBlueAllianceAPI: string,
 	}
 
 	database: {

@@ -1,116 +1,220 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <% include ../partials/head %>
+	<head>
+		<% include ../partials/head %>
 
-    <script src="/js/home.js" defer></script>
+		<script src="/js/home.js" defer></script>
 
-    <title>FRC Scout | Dashboard</title>
-  </head>
-  <body>
-    <div id="app">
-      <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-          <a class="navbar-item" href="/dash/home">
-            <img src="/img/first-logo-horizontal.png" />
-          </a>
-        </div>
+		<title>FRC Scout | Dashboard</title>
+	</head>
+	<body>
+		<div id="app">
+			<nav class="navbar" role="navigation" aria-label="main navigation">
+				<div class="navbar-brand">
+					<a class="navbar-item" href="/dash/home">
+						<img src="/img/first-logo-horizontal.png" />
+					</a>
+				</div>
 
-        <div class="navbar-menu">
-          <div class="navbar-end">
-            <div class="navbar-item">
-              <div class="buttons">
-                <a class="button is-primary" v-on:click="logout">
-                  <strong>Logout</strong>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
+				<div class="navbar-menu">
+					<div class="navbar-end">
+						<div class="navbar-item">
+							<div class="buttons">
+								<a class="button is-primary" v-on:click="logout">
+									<strong>Logout</strong>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</nav>
 
-      <section class="section">
-        <div class="container">
-          <h1 class="title">Devices</h1>
+			<section class="section">
+				<div class="container">
+					<h1 class="title">Devices</h1>
 
-          <table class="table is-striped is-fullwidth">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Active</th>
-                <th>Code</th>
-                <th>Remove</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="device in devices">
-                <th>{{ device.name }}</th>
-                <td>{{ device.active }}</td>
-                <td>{{ device.activationCode }}</td>
-                <td>
-                  <a class="button is-danger" v-on:click="removeDevice">
-                    Remove
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+					<table class="table is-striped is-fullwidth">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Active</th>
+								<th>Code</th>
+								<th>Remove</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="device in devices">
+								<th>{{ device.name }}</th>
+								<td>{{ device.active }}</td>
+								<td>{{ device.activationCode }}</td>
+								<td>
+									<a class="button is-danger" v-on:click="removeDevice">
+										Remove
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
 
-          <a
-            class="button is-primary"
-            v-on:click="modalVisible.newDevice = true"
-          >
-            New Device
-          </a>
-        </div>
-      </section>
+					<a
+						class="button is-primary"
+						v-on:click="modalVisible.newDevice = true"
+					>
+						New Device
+					</a>
+				</div>
+			</section>
 
-      <div class="modal" v-bind:class="{ 'is-active': modalVisible.newDevice }">
-        <div
-          class="modal-background"
-          v-on:click="modalVisible.newDevice = false"
-        ></div>
-        <div class="modal-card">
-          <header class="modal-card-head">
-            <p class="modal-card-title">New Device</p>
-            <button
-              class="delete"
-              aria-label="close"
-              v-on:click="modalVisible.newDevice = false"
-            ></button>
-          </header>
+			<section class="section">
+				<div class="container">
+					<h1 class="title">Regionals</h1>
 
-          <section class="modal-card-body">
-            <div class="field">
-              <label class="label">Name</label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="text"
-                  placeholder="Name"
-                  v-model="newDeviceName"
-                  v-bind:class="{ 'is-danger': errors.newDevice.nameTaken }"
-                />
-              </div>
-              <p class="help is-danger" v-if="errors.newDevice.nameTaken">
-                There is already a device with this name
-              </p>
-            </div>
-          </section>
+					<table class="table is-striped is-fullwidth">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Code</th>
+								<th>Primary</th>
+								<th>Options</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="regional in regionals">
+								<th>{{ regional.name }}</th>
+								<td>{{ regional.key }}</td>
+								<td>{{ regional.active }}</td>
+								<td>
+									<a class="button is-primary" v-on:click="">
+										Set Primary
+									</a>
+									<a class="button is-danger" v-on:click="">
+										Remove
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
 
-          <footer class="modal-card-foot">
-            <button class="button is-success" v-on:click="createDevice">
-              Create
-            </button>
-            <button class="button" v-on:click="modalVisible.newDevice = false">
-              Cancel
-            </button>
-            <p class="help is-danger" v-if="errors.newDevice.generic">
-              Error creating new device
-            </p>
-          </footer>
-        </div>
-      </div>
-    </div>
-  </body>
+					<a
+						class="button is-primary"
+						v-on:click="modalVisible.newRegional = true"
+					>
+						New Regional
+					</a>
+				</div>
+			</section>
+
+			<!-- New Device -->
+			<div class="modal" v-bind:class="{ 'is-active': modalVisible.newDevice }">
+				<div
+					class="modal-background"
+					v-on:click="modalVisible.newDevice = false"
+				></div>
+				<div class="modal-card">
+					<header class="modal-card-head">
+						<p class="modal-card-title">New Device</p>
+						<button
+							class="delete"
+							aria-label="close"
+							v-on:click="modalVisible.newDevice = false"
+						></button>
+					</header>
+
+					<section class="modal-card-body">
+						<div class="field">
+							<label class="label">Name</label>
+							<div class="control">
+								<input
+									class="input"
+									type="text"
+									placeholder="Name"
+									v-model="newDeviceName"
+									v-bind:class="{ 'is-danger': errors.newDevice.nameTaken }"
+								/>
+							</div>
+							<p class="help is-danger" v-if="errors.newDevice.nameTaken">
+								There is already a device with this name
+							</p>
+						</div>
+					</section>
+
+					<footer class="modal-card-foot">
+						<button class="button is-success" v-on:click="createDevice">
+							Create
+						</button>
+						<button class="button" v-on:click="modalVisible.newDevice = false">
+							Cancel
+						</button>
+						<p class="help is-danger" v-if="errors.newDevice.generic">
+							Error creating new device
+						</p>
+					</footer>
+				</div>
+			</div>
+
+			<!-- New Regional -->
+			<div
+				class="modal"
+				v-bind:class="{ 'is-active': modalVisible.newRegional }"
+			>
+				<div
+					class="modal-background"
+					v-on:click="modalVisible.newRegional = false"
+				></div>
+				<div class="modal-card">
+					<header class="modal-card-head">
+						<p class="modal-card-title">New Regional</p>
+						<button
+							class="delete"
+							aria-label="close"
+							v-on:click="modalVisible.newRegional = false"
+						></button>
+					</header>
+
+					<section class="modal-card-body">
+						<div class="field">
+							<label class="label">The Blue Alliance Key</label>
+							<div class="control">
+								<input
+									class="input"
+									type="text"
+									placeholder="2018ndgf"
+									v-model="newRegionalName"
+									v-bind:class="{ 'is-danger': errors.newRegional.alreadyLoaded || errors.newRegional.noRegionalExists }"
+								/>
+							</div>
+							<p class="help is-danger" v-if="errors.newRegional.alreadyLoaded">
+								This regional has already been loaded
+							</p>
+							<p
+								class="help is-danger"
+								v-if="errors.newRegional.noRegionalExists"
+							>
+								No regional with this name exists
+							</p>
+						</div>
+					</section>
+
+					<footer class="modal-card-foot">
+						<button
+							class="button is-success"
+							v-on:click="createRegional"
+							v-bind:class="{ 'is-loading': newRegionalLoading }"
+						>
+							Create
+						</button>
+						<button
+							class="button"
+							v-on:click="modalVisible.newRegional = false"
+						>
+							Cancel
+						</button>
+						<p class="help is-danger" v-if="errors.newRegional.generic">
+							Error creating new regional
+						</p>
+					</footer>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>

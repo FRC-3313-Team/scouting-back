@@ -20,3 +20,17 @@ export interface IMatchScheduleEntry {
 	time: number,
 	winning_alliance: "blue" | "red"
 }
+
+export interface IRegionalInfo {
+	city: string,
+	country: string,
+	district: string,
+	end_data: string,
+	event_code: string,
+	event_type: number,
+	key: string,
+	name: string,
+	start_date: string,
+	state_prov: string,
+	year: number,
+}

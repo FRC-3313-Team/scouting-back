@@ -11,17 +11,3 @@
 	defer
 	src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
 ></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.21/vue.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
-
-<script>
-	axios.interceptors.response.use(
-		response => {
-			return response;
-		},
-		function(error) {
-			return Promise.reject(error.response);
-		}
-	);
-</script>

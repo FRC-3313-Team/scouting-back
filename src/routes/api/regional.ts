@@ -6,8 +6,9 @@ import asyncWrapper from "../../util/asyncWrapper";
 import requireAuth from "../../middleware/requireAuth";
 
 import { AuthorizationType } from "../../middleware/authentication";
-import { IMatchScheduleEntry } from "../../types/thebluealliance";
+import { IMatchScheduleEntry, IRegionalInfo } from "../../types/thebluealliance";
 import { Match, IMatchModel, IMatchTeam } from "../../models/match";
+import { Regional, IRegionalModel, IRegional } from "../../models/regional";
 
 axios.defaults.headers.get["X-TBA-Auth-Key"] = config.external.theBlueAllianceKey;
 
@@ -50,26 +51,56 @@ const generateAlliancesWithPrefix = (teamKeys: Array<string>, prefix: string) =>
 
 const router = express.Router();
 
-router.post("/load",
+router.post("/new",
 	requireAuth(AuthorizationType.Dashboard),
 	asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-	let eventData: Array<IMatchScheduleEntry>;
+	let matchSchedule: Array<IMatchScheduleEntry>;
+	let regionalInfo: IRegionalInfo;
+
+	if (typeof req.body.key !== "string") {
+		return res.status(400)
+			.contentType("text/plain")
+			.send("must provide regional key");
+	}
+
+	const checkForRegional = await Regional.findOne({key: req.body.key});
+	if (checkForRegional) {
+		return res.status(409)
+			.contentType("text/plain")
+			.send("this regional has already been loaded");
+	}
 
 	try {
-		const axiosRes = await axios.get("https://www.thebluealliance.com/api/v3/event/" + req.body.event + "/matches/simple");
+		const axiosRes = await axios.get(config.server.theBlueAllianceAPI + "/event/" + req.body.key + "/simple");
 
-		eventData = axiosRes.data;
+		regionalInfo = axiosRes.data;
+	} catch (e) {
+		if (e.response.status === 404) {
+			return res.status(404)
+				.contentType("text/plain")
+				.send("regional does not exist");
+		}
+
+		console.error(e);
+
+		return res.status(500).send();
+	}
+
+	try {
+		const axiosRes = await axios.get(config.server.theBlueAllianceAPI + "/event/" + req.body.key + "/matches/simple");
+
+		matchSchedule = axiosRes.data;
 	} catch (e) {
 		console.error(e);
 
 		return res.status(500).send();
 	}
 
-	eventData.forEach((match) => {
+	matchSchedule.forEach((match) => {
 		if (match.comp_level !== "qm") { return; }
 
 		const newMatch: IMatchModel = new Match({
-			regional: req.body.event,
+			regional: req.body.key,
 			match: match.comp_level + match.match_number,
 			data: [...generateAlliancesWithPrefix(match.alliances.blue.team_keys, "b"),
 						...generateAlliancesWithPrefix(match.alliances.red.team_keys, "r")],
@@ -78,7 +109,55 @@ router.post("/load",
 		newMatch.save();
 	});
 
-	res.send("loaded");
+	const newRegional: IRegionalModel = new Regional({
+		active: false,
+		key: regionalInfo.key,
+		name: regionalInfo.year + " " + regionalInfo.name,
+		loaded: true,
+	});
+
+	await newRegional.save();
+
+	const currentRegionals = await Regional.find().lean();
+
+	return res.status(200)
+		.send(currentRegionals);
+}));
+
+router.get("/list",
+	requireAuth(AuthorizationType.Dashboard),
+	asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	const regionals: Array<IRegional> = await Regional.find().lean();
+
+	return res.status(200)
+		.contentType("text/plain")
+		.send(regionals);
+}));
+
+router.post("/delete",
+	requireAuth(AuthorizationType.Dashboard),
+	asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	if (typeof req.body.key !== "string") {
+		return res.status(400)
+			.contentType("text/plain")
+			.send("must provide regional key");
+	}
+
+	const regional = await Regional.findOne({ key: req.body.key });
+
+	if (!regional) {
+		return res.status(400)
+			.contentType("text/plain")
+			.send("regional not loaded");
+	}
+
+	await Match.deleteMany({ regional: regional.key });
+	await regional.remove();
+
+	const currentRegionals = await Regional.find().lean();
+
+	return res.status(200)
+		.send(currentRegionals);
 }));
 
 export default router;
