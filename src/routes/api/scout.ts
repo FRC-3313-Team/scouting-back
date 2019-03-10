@@ -81,6 +81,13 @@ router.post("/upload",
 	for (const change of req.body) {
 		if (change.type === "match") {
 			const delta: IMatchDelta = change;
+
+			if (!delta.regional || !delta.match) {
+				return res.status(400)
+					.contentType("text/plain")
+					.send("missing regional or match property");
+			}
+
 			const match = await Match.findOne({ regional: delta.regional, match: delta.match });
 
 			if (!match) {
