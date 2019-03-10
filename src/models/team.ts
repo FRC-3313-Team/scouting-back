@@ -34,12 +34,14 @@ export const TeamDataSchema: Schema = new Schema({
 
 export interface ITeam {
 	key: string,
-	regionals: Array<string>;
+	name: string,
+	regionals: Array<string>,
 	data: ITeamData,
 }
 
 export const TeamSchema: Schema = new Schema({
 	key: String,
+	name: String,
 	regionals: [String],
 	data: TeamDataSchema,
 });

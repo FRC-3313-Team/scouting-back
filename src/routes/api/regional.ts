@@ -136,6 +136,7 @@ router.post("/new",
 
 		const newTeam = new Team({
 			key: team.key,
+			name: team.nickname,
 			regionals: [regionalInfo.key],
 			data: {
 				social: [],

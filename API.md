@@ -232,6 +232,7 @@ Authentication: Device
 [
   {
     "team": "frc3313",
+    "name": "Mechatronics",
     "data": {
       "social": [
         { "site": "twitter", "handle": "@WhateverOurSocialMediaIs" }
