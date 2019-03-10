@@ -18,6 +18,7 @@ const sanitizeDevices = (devices: Array<IDeviceModel>) => {
 		sanitized.push({
 			name: device.name,
 			active: device.active,
+			driverStation: device.driverStation,
 			activationCode: device.activationCode,
 		});
 	});
@@ -32,7 +33,7 @@ router.get("/list",
 	const sanitized = sanitizeDevices(devices);
 
 	res.status(200)
-	.send(sanitized);
+		.send(sanitized);
 }));
 
 router.post("/new",
@@ -50,6 +51,7 @@ router.post("/new",
 	let newDevice = new Device({
 		active: false,
 		name: deviceName,
+		driverStation: "r1",
 		activationCode: rand(config.device.activationCodeLength * 3, 10),
 	});
 
@@ -58,7 +60,35 @@ router.post("/new",
 	const devices = await Device.find();
 	const sanitized = sanitizeDevices(devices);
 
-	res.status(200).send(sanitized);
+	res.status(200)
+		.send(sanitized);
+}));
+
+router.post("/setDriverStation",
+	requireAuth(AuthorizationType.Dashboard),
+	asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	if (typeof req.body.name !== "string") {
+		return res.status(400)
+			.contentType("text/plain")
+			.send("must provide a string name");
+	}
+
+	const device = await Device.findOne({ name: req.body.name });
+	if (device === null) {
+		return res.status(400)
+			.contentType("text/plain")
+			.send("invalid name");
+	}
+
+	device.driverStation = req.body.station;
+
+	await device.save();
+
+	const devices = await Device.find();
+	const sanitized = sanitizeDevices(devices);
+
+	res.status(200)
+		.send(sanitized);
 }));
 
 router.post("/register", asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -104,7 +134,7 @@ router.post("/delete",
 	const sanitized = sanitizeDevices(devices);
 
 	res.status(200)
-	.send(sanitized);
+		.send(sanitized);
 }));
 
 router.get("/status",
@@ -122,7 +152,7 @@ router.get("/status",
 
 	res.status(200).send({
 		name: device.name,
-		defaultDriverStation: "r1",
+		defaultDriverStation: device.driverStation,
 		regional: regionalKey,
 	});
 }));

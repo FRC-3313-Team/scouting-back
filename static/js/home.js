@@ -3,6 +3,7 @@ new Vue({
 	data: {
 		devices: [],
 		regionals: [],
+		driverStationOptions: ["r1", "r2", "r3", "b1", "b2", "b3"],
 		newDeviceName: "",
 		newRegionalName: "",
 		newRegionalLoading: false,
@@ -131,6 +132,38 @@ new Vue({
 				})
 				.then(res => {
 					this.regionals = res.data;
+				})
+				.catch(err => {
+					console.error(err);
+				});
+		},
+		toggleDropdown: function(event) {
+			let dropdown = event.srcElement;
+
+			for (let i = 0; i < 5; i++) {
+				if (dropdown.classList.contains("dropdown")){
+					break;
+				} else {
+					dropdown = dropdown.parentElement;
+				}
+			}
+
+			if (dropdown.classList.contains("dropdown")) {
+				if (dropdown.classList.contains("is-active")) {
+					dropdown.classList.remove("is-active");
+				} else {
+					dropdown.classList.add("is-active");
+				}
+			}
+		},
+		changeDriverStation: function(name, station) {
+			axios
+				.post("../../api/device/setDriverStation", {
+					name: name,
+					station: station
+				})
+				.then(res => {
+					this.devices = res.data;
 				})
 				.catch(err => {
 					console.error(err);

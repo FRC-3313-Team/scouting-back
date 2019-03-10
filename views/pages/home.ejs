@@ -39,6 +39,7 @@
 								<th>Name</th>
 								<th>Active</th>
 								<th>Code</th>
+								<th>Driver Station</th>
 								<th>Remove</th>
 							</tr>
 						</thead>
@@ -47,6 +48,33 @@
 								<th>{{ device.name }}</th>
 								<td>{{ device.active }}</td>
 								<td>{{ device.activationCode }}</td>
+								<td>
+									<div class="dropdown" v-on:click="toggleDropdown">
+										<div class="dropdown-trigger">
+											<button
+												class="button"
+												aria-haspopup="true"
+												aria-controls="dropdown-menu"
+											>
+												<span>{{ device.driverStation }}</span>
+												<span class="icon is-small">
+													<i class="fas fa-angle-down" aria-hidden="true"></i>
+												</span>
+											</button>
+										</div>
+										<div class="dropdown-menu" id="dropdown-menu" role="menu">
+											<div class="dropdown-content">
+												<a
+													class="dropdown-item"
+													v-for="opt in driverStationOptions"
+													v-on:click="changeDriverStation(device.name, opt)"
+												>
+													{{ opt }}
+												</a>
+											</div>
+										</div>
+									</div>
+								</td>
 								<td>
 									<a class="button is-danger" v-on:click="removeDevice">
 										Remove
@@ -84,10 +112,18 @@
 								<td>{{ regional.key }}</td>
 								<td>{{ regional.active }}</td>
 								<td>
-									<a class="button is-primary" v-on:click="primeRegional" v-bind:disabled="regional.active" >
+									<a
+										class="button is-primary"
+										v-on:click="primeRegional"
+										v-bind:disabled="regional.active"
+									>
 										Set Primary
 									</a>
-									<a class="button is-danger" v-on:click="removeRegional" v-bind:disabled="regional.active">
+									<a
+										class="button is-danger"
+										v-on:click="removeRegional"
+										v-bind:disabled="regional.active"
+									>
 										Remove
 									</a>
 								</td>
