@@ -123,9 +123,20 @@ router.post("/new",
 		newMatch.save();
 	});
 
-	teamsAtRegional.forEach((team) => {
+	for (const team of teamsAtRegional) {
+		const checkForTeam = await Team.findOne({ key: team.key });
+
+		if (checkForTeam && checkForTeam.key === team.key) {
+			checkForTeam.regionals.push(regionalInfo.key);
+
+			checkForTeam.save();
+
+			continue;
+		}
+
 		const newTeam = new Team({
 			key: team.key,
+			regionals: [regionalInfo.key],
 			data: {
 				social: [],
 				awards: {
@@ -138,7 +149,7 @@ router.post("/new",
 		});
 
 		newTeam.save();
-	});
+	}
 
 	const newRegional: IRegionalModel = new Regional({
 		active: false,

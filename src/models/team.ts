@@ -12,33 +12,39 @@ export const TeamSocialSchema: Schema = new Schema({
 	handle: String,
 });
 
-export interface ITeam {
-	key: string,
-	data: {
-		social: Array<ITeamSocial>,
-		awards: {
-			chairmans: boolean,
-			woodie: boolean,
-			deans: boolean,
-		},
-		notes: string,
-	}
+export interface ITeamData {
+	social: Array<ITeamSocial>,
+	awards: {
+		chairmans: boolean,
+		woodie: boolean,
+		deans: boolean,
+	},
+	notes: string,
 }
 
-export interface ITeamModel extends ITeam, Document {}
+export const TeamDataSchema: Schema = new Schema({
+	social: [TeamSocialSchema],
+	awards: {
+		chairmans: Boolean,
+		woodie: Boolean,
+		deans: Boolean,
+	},
+	notes: String,
+});
+
+export interface ITeam {
+	key: string,
+	regionals: Array<string>;
+	data: ITeamData,
+}
 
 export const TeamSchema: Schema = new Schema({
 	key: String,
-	data: {
-		social: [TeamSocialSchema],
-		awards: {
-			chairmans: Boolean,
-			woodie: Boolean,
-			deans: Boolean,
-		},
-		notes: String,
-	},
+	regionals: [String],
+	data: TeamDataSchema,
 });
+
+export interface ITeamModel extends ITeam, Document {}
 
 export const Team: Model<ITeamModel> = connections.main.model<ITeamModel>(
 	"Team",

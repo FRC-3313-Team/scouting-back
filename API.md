@@ -86,9 +86,9 @@ Get the information set by the dashboard for the device. Can be used for testing
 #### Example Response
 ```json
 {
-	"name": "Scouting Tablet 1",
-	"defaultDriverStation": "r2",
-	"regional": "2018ndgf"
+  "name": "Scouting Tablet 1",
+  "defaultDriverStation": "r2",
+  "regional": "2018ndgf"
 }
 ```
 
@@ -122,7 +122,7 @@ Authentication: Device
       "auto": {
         "hatch": true,
         "cargo": false,
-	"movement": true
+  "movement": true
       },
       "habitat": {
         "start": 2,
@@ -215,11 +215,19 @@ Authentication: Device
 ]
 ```
 
-### GET ``/api/scout/pit``
+### GET ``/api/scout/teams``
 Return all team's pit scouting information
 
 Authentication: Device
 
+#### Example Body
+```json
+{
+  "regional": "2018ndgf"
+}
+```
+
+#### Example Response
 ```json
 [
   {

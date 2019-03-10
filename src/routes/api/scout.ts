@@ -6,6 +6,7 @@ import requireAuth from "../../middleware/requireAuth";
 import { AuthorizationType } from "../../middleware/authentication";
 import { Match, IMatchData } from "../../models/match";
 import { Regional } from "../../models/regional";
+import { ITeamData, Team } from "../../models/team";
 
 interface IMatchDelta {
 	type: "match",
@@ -13,6 +14,12 @@ interface IMatchDelta {
 	match: string,
 	team: string,
 	data: IMatchData,
+}
+
+interface ITeamDelta {
+	type: "team",
+	team: string,
+	data: ITeamData,
 }
 
 const router = express.Router();
@@ -39,6 +46,28 @@ router.get("/matches",
 		.send(matches);
 }));
 
+router.get("/teams",
+	requireAuth(AuthorizationType.Device),
+	asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	if (typeof req.body.regional !== "string") {
+		return res.status(400)
+			.contentType("text/plain")
+			.send("missing regional property in body");
+	}
+
+	const regional = await Regional.findOne({ key: req.body.regional });
+	if (!regional) {
+		return res.status(404)
+			.contentType("text/plain")
+			.send("regional does not exist or it has not been loaded in the dashboard");
+	}
+
+	const teams = await Team.find({ regionals: regional.key }).lean();
+
+	res.status(200)
+		.send(teams);
+}));
+
 router.post("/upload",
 	requireAuth(AuthorizationType.Device),
 	asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -58,6 +87,7 @@ router.post("/upload",
 				continue;
 			}
 
+			// This loop searchs for the corresponding team in the match data
 			for (const i in match.data) {
 				if (match.data.hasOwnProperty(i) && match.data[i].team === delta.team) {
 					match.data[i].data = delta.data;
@@ -66,6 +96,17 @@ router.post("/upload",
 			}
 
 			await match.save();
+		} else if (change.type === "team") {
+			const delta: ITeamDelta = change;
+			const team = await Team.findOne({ key: delta.team });
+
+			if (!team) {
+				continue;
+			}
+
+			team.data = delta.data;
+
+			await team.save();
 		}
 	}
 
