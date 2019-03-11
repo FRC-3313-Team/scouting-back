@@ -172,47 +172,49 @@ Authentication: Device
 
 #### Example Response
 ```json
-[
-  {
-    "match": "qm1",
-    "regional": "2018ndgf",
-    "data": [
-      {
-        "team": "frc3313",
-        "position": "b2",
-        "scouted": true,
-        "data": {
-          "auto": {
-            "hatch": true,
-            "cargo": false,
-            "movement": true
-          },
-          "habitat": {
-            "start": 2,
-            "end": 2
-          },
-          "rocket": {
-            "hatch": [0, 2, 0],
-            "cargo": [0, 0, 0]
-          },
-          "pod": {
-            "hatch": 1,
-            "cargo": 3
-          },
-          "defense": false,
-          "notes": "Some random text here"
+{
+  "matches":[
+    {
+      "match": "qm1",
+      "regional": "2018ndgf",
+      "data": [
+        {
+          "team": "frc3313",
+          "position": "b2",
+          "scouted": true,
+          "data": {
+            "auto": {
+              "hatch": true,
+              "cargo": false,
+              "movement": true
+            },
+            "habitat": {
+              "start": 2,
+              "end": 2
+            },
+            "rocket": {
+              "hatch": [0, 2, 0],
+              "cargo": [0, 0, 0]
+            },
+            "pod": {
+              "hatch": 1,
+              "cargo": 3
+            },
+            "defense": false,
+            "notes": "Some random text here"
+          }
+        },
+        {
+          "team": "frc4444",
+          "position": "b3",
+          "scouted": false,
         }
-      },
-      {
-        "team": "frc4444",
-        "position": "b3",
-        "scouted": false,
-      }
-      ...
-    ]
-  }
-  ...
-]
+        ...
+      ]
+    }
+    ...
+  ]
+}
 ```
 
 ### GET ``/api/scout/teams``

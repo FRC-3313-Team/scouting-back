@@ -43,7 +43,7 @@ router.get("/matches",
 	const matches = await Match.find({ regional: regional.key }).lean();
 
 	res.status(200)
-		.send(matches);
+		.send({ matches });
 }));
 
 router.get("/teams",
