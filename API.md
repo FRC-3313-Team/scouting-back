@@ -231,21 +231,23 @@ Authentication: Device
 
 #### Example Response
 ```json
-[
-  {
-    "team": "frc3313",
-    "name": "Mechatronics",
-    "data": {
-      "social": [
-        { "site": "twitter", "handle": "@WhateverOurSocialMediaIs" }
-      ],
-      "awards": {
-        "chairmans": true,
-        "woodie": false,
-        "deans": false,
-      },
-      "notes": "Some more random text here"
+{
+  "teams": [
+    {
+      "team": "frc3313",
+      "name": "Mechatronics",
+      "data": {
+        "social": [
+          { "site": "twitter", "handle": "@WhateverOurSocialMediaIs" }
+        ],
+        "awards": {
+          "chairmans": true,
+          "woodie": false,
+          "deans": false,
+        },
+        "notes": "Some more random text here"
+      }
     }
-  }
-]
+  ]
+}
 ```

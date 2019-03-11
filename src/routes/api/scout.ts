@@ -65,7 +65,7 @@ router.get("/teams",
 	const teams = await Team.find({ regionals: regional.key }).lean();
 
 	res.status(200)
-		.send(teams);
+		.send({ teams });
 }));
 
 router.post("/upload",
