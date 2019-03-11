@@ -27,13 +27,13 @@ const router = express.Router();
 router.get("/matches",
 	requireAuth(AuthorizationType.Device),
 	asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-	if (typeof req.body.regional !== "string") {
+	if (typeof req.query.regional !== "string") {
 		return res.status(400)
 			.contentType("text/plain")
-			.send("missing regional property in body");
+			.send("missing regional property in query");
 	}
 
-	const regional = await Regional.findOne({ key: req.body.regional });
+	const regional = await Regional.findOne({ key: req.query.regional });
 	if (!regional) {
 		return res.status(404)
 			.contentType("text/plain")
@@ -49,13 +49,13 @@ router.get("/matches",
 router.get("/teams",
 	requireAuth(AuthorizationType.Device),
 	asyncWrapper(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-	if (typeof req.body.regional !== "string") {
+	if (typeof req.query.regional !== "string") {
 		return res.status(400)
 			.contentType("text/plain")
-			.send("missing regional property in body");
+			.send("missing regional property in query");
 	}
 
-	const regional = await Regional.findOne({ key: req.body.regional });
+	const regional = await Regional.findOne({ key: req.query.regional });
 	if (!regional) {
 		return res.status(404)
 			.contentType("text/plain")

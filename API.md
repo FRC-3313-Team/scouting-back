@@ -158,7 +158,7 @@ Authentication: Device
 ]
 ```
 
-### GET ``/api/scout/matches``
+### GET ``/api/scout/matches?regional=<regional_key>``
 Get the entire match schedule + scouting data
 
 Authentication: Device
@@ -217,17 +217,10 @@ Authentication: Device
 }
 ```
 
-### GET ``/api/scout/teams``
+### GET ``/api/scout/teams?regional=<regional_key>``
 Return all team's pit scouting information
 
 Authentication: Device
-
-#### Example Body
-```json
-{
-  "regional": "2018ndgf"
-}
-```
 
 #### Example Response
 ```json
