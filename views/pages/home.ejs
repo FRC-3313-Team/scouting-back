@@ -166,6 +166,7 @@
 									placeholder="Name"
 									v-model="newDeviceName"
 									v-bind:class="{ 'is-danger': errors.newDevice.nameTaken }"
+									ref="deviceName"
 								/>
 							</div>
 							<p class="help is-danger" v-if="errors.newDevice.nameTaken">
@@ -217,6 +218,7 @@
 									placeholder="2018ndgf"
 									v-model="newRegionalName"
 									v-bind:class="{ 'is-danger': errors.newRegional.alreadyLoaded || errors.newRegional.noRegionalExists }"
+									ref="regionalName"
 								/>
 							</div>
 							<p class="help is-danger" v-if="errors.newRegional.alreadyLoaded">

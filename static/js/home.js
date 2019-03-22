@@ -170,6 +170,31 @@ new Vue({
 				});
 		}
 	},
+	watch: {
+		modalVisible: {
+			deep: true,
+			handler: function() {
+				if (this.modalVisible.newDevice) {
+					this.$nextTick(function(){
+						this.$refs.deviceName.focus();
+					});
+
+
+				} else if (this.modalVisible.newRegional) {
+					this.$nextTick(function(){
+						this.$refs.regionalName.focus();
+					});
+				}
+
+				if (this.modalVisible.newDevice || this.modalVisible.newRegional) {
+					document.documentElement.classList.add("is-clipped");
+				} else {
+					document.documentElement.classList.remove("is-clipped");
+				}
+			},
+		}
+
+	},
 	mounted() {
 		axios
 			.get("../../api/device/list")
