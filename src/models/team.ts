@@ -15,21 +15,18 @@ export const TeamSocialSchema: Schema = new Schema({
 export interface ITeamData {
 	social: Array<ITeamSocial>,
 	awards: {
-		chairmans: boolean,
-		woodie: boolean,
-		deans: boolean,
+		[key: string]: boolean,
 	},
-	notes: string,
+	outreach: string,
 }
 
 export const TeamDataSchema: Schema = new Schema({
 	social: [TeamSocialSchema],
 	awards: {
-		chairmans: Boolean,
-		woodie: Boolean,
-		deans: Boolean,
+		type: Map,
+		of: Boolean,
 	},
-	notes: String,
+	outreach: String,
 });
 
 export interface ITeam {

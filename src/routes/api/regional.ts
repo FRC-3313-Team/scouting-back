@@ -127,7 +127,9 @@ router.post("/new",
 		const checkForTeam = await Team.findOne({ key: team.key });
 
 		if (checkForTeam && checkForTeam.key === team.key) {
-			checkForTeam.regionals.push(regionalInfo.key);
+			if (!checkForTeam.regionals.includes(regionalInfo.key)) {
+				checkForTeam.regionals.push(regionalInfo.key);
+			}
 
 			checkForTeam.save();
 
@@ -140,12 +142,8 @@ router.post("/new",
 			regionals: [regionalInfo.key],
 			data: {
 				social: [],
-				awards: {
-					chairmans: false,
-					woodie: false,
-					deans: false,
-				},
-				notes: "",
+				awards: {},
+				outreach: "",
 			},
 		});
 
