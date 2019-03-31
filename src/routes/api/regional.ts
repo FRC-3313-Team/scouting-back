@@ -110,7 +110,7 @@ router.post("/new",
 		return res.status(500).send();
 	}
 
-	matchSchedule.forEach((match) => {
+	const matchPromises = matchSchedule.map(async (match) => {
 		if (match.comp_level !== "qm") { return; }
 
 		const newMatch: IMatchModel = new Match({
@@ -120,10 +120,11 @@ router.post("/new",
 						...generateAlliancesWithPrefix(match.alliances.red.team_keys, "r")],
 		});
 
-		newMatch.save();
+		await newMatch.save();
 	});
+	await Promise.all(matchPromises);
 
-	for (const team of teamsAtRegional) {
+	const teamPromises = teamsAtRegional.map(async (team) => {
 		const checkForTeam = await Team.findOne({ key: team.key });
 
 		if (checkForTeam && checkForTeam.key === team.key) {
@@ -131,9 +132,9 @@ router.post("/new",
 				checkForTeam.regionals.push(regionalInfo.key);
 			}
 
-			checkForTeam.save();
+			await checkForTeam.save();
 
-			continue;
+			return;
 		}
 
 		const newTeam = new Team({
@@ -147,8 +148,9 @@ router.post("/new",
 			},
 		});
 
-		newTeam.save();
-	}
+		await newTeam.save();
+	});
+	await Promise.all(teamPromises);
 
 	const newRegional: IRegionalModel = new Regional({
 		active: false,
